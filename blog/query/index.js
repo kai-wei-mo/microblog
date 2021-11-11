@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const { application } = require('express');
 
 const app = express();
 app.use(cors());
@@ -32,12 +33,21 @@ app.post('/events', (req, res) => {
     }
 
     if (type === 'CommentCreated') {
-        const { id, content, postId } = data;
-        posts[postId].comments.push({ id, content });
+        const { postId, commentId, content, status } = data;
+        posts[postId].comments.push({ commentId, content, status });
+    }
+
+    if (type === 'CommentUpdated') {
+        const { postId, commentId, status, content } = data;
+        const comments = posts[postId].comments;
+        const comment = comments.find((c) => c.commentId === commentId);
+        comment.status = status;
+        comment.content = content;
     }
 
     res.send({});
 });
+
 
 app.listen(4002, () => {
 	console.log('listening on 4002');

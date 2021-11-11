@@ -23,25 +23,43 @@ app.get('/posts/:postId/comments', (req, res) => {
 app.post('/posts/:postId/comments', (req, res) => {
 	const { postId } = req.params;
 	const { content } = req.body;
+	const status = 'pending';
 
 	const commentId = randomBytes(4).toString('hex');
 	const comments = commentsByPostId[postId] || [];
 
-	comments.push({ id: commentId, content: content });
+	comments.push({ id: commentId, content: content, status: status });
 	commentsByPostId[postId] = comments;
 
 	// emit event to bus
 	axios.post('http://localhost:4005/events', {
 		type: 'CommentCreated',
-		data: { postId, commentId, content },
+		data: { postId, commentId, content, status },
 	});
 
 	res.status(201).send({ id: commentId });
 });
 
 // listen for events
-app.post('/events', (req, res) => {
+app.post('/events', async (req, res) => {
 	console.log('received event:', req.body.type);
+
+	const { type, data } = req.body;
+
+	// a comment has been moderated by Moderator
+	if (type === 'CommentModerated') {
+		const { commentId, postId, status } = data;
+		const comments = commentsByPostId[postId];
+		const comment = comments.find((c) => c.id === commentId);
+		comment.status = status;
+
+		// emit event to bus
+		await axios.post('http://localhost:4005/events', {
+			type: 'CommentUpdated',
+			data: { commentId, postId, status, content: comment.content },
+		});
+	}
+
 	res.send({ status: 'OK' });
 });
 
