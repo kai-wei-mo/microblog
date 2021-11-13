@@ -5,16 +5,26 @@ const axios = require('axios');
 const app = express();
 app.use(bodyParser.json());
 
+const events = [];
+
+// get events
+app.get('/events', (req, res) => {
+	res.send(events);
+});
+
 // consume events
 app.post('/events', (req, res) => {
 	const event = req.body;
 	console.log('received event:', event);
 
-    // send event to other microservices
-	axios.post('http://localhost:4000/events', event); // posts
-	axios.post('http://localhost:4001/events', event); // comments
-	axios.post('http://localhost:4002/events', event); // query
-	axios.post('http://localhost:4003/events', event); // moderation
+	// store event in memory
+	events.push(event);
+
+	// send event to other microservices
+	axios.post('http://localhost:4000/events', event).catch(console.error); // posts
+	axios.post('http://localhost:4001/events', event).catch(console.error); // comments
+	axios.post('http://localhost:4002/events', event).catch(console.error); // query
+	axios.post('http://localhost:4003/events', event).catch(console.error); // moderation
 
 	// assumes requests are unconditionally successful
 	res.send({ status: 'OK' });
