@@ -45,7 +45,7 @@ app.listen(4000, () => {
 });
 
 /*
-manual testing:
+-- MANUAL TEST
 
 curl -X POST -H "Content-Type: application/json" \
     -d '{"title": "i am a title"}' \

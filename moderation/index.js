@@ -28,3 +28,13 @@ app.post('/events', async (req, res) => {
 app.listen(4003, () => {
 	console.log('listening on 4003');
 });
+
+/*
+-- MANUAL TEST
+1. Create a post (call this Post A).
+2. Create a comment under Post A containing the word "reject".
+3. Check that the comment is rejected.
+4. Kill the Moderation service.
+5. Create a comment under Post A.
+6. Check that the comment is pending approval.
+*/

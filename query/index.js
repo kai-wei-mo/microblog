@@ -55,9 +55,18 @@ app.post('/events', (req, res) => {
 app.listen(4002, async () => {
 	console.log('listening on 4002');
 
+    // dead letter queue
 	const res = await axios.get('http://localhost:4005/events');
 	for (let event of res.data) {
 		console.log(`processing event: ${event.type}`);
 		handleEvent(event);
 	}
 });
+
+/*
+-- MANUAL TEST (for dlq)
+1. Kill the Query service
+2. Create some Posts and/or Comments
+3. Restart the Query service
+4. Check that the queued events are processed
+*/
