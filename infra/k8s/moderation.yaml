@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moderation
+  labels:
+    app: moderation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moderation
+  template:
+    metadata:
+      labels:
+        app: moderation
+    spec:
+      containers:
+      - name: moderation
+        image: moderation:latest
+        imagePullPolicy: Never
+        ports:
+        - name: moderation
+          protocol: TCP
+          containerPort: 4003
+          

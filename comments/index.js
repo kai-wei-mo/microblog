@@ -32,7 +32,7 @@ app.post('/posts/:postId/comments', (req, res) => {
 	commentsByPostId[postId] = comments;
 
 	// emit event to bus
-	axios.post('http://localhost:4005/events', {
+	axios.post('http://event-bus-clusterip:4005/events', {
 		type: 'CommentCreated',
 		data: { postId, commentId, content, status },
 	});
@@ -54,7 +54,7 @@ app.post('/events', async (req, res) => {
 		comment.status = status;
 
 		// emit event to bus
-		await axios.post('http://localhost:4005/events', {
+		await axios.post('http://event-bus-clusterip:4005/events', {
 			type: 'CommentUpdated',
 			data: { commentId, postId, status, content: comment.content },
 		});
@@ -67,21 +67,21 @@ app.listen(4001, () => {
 	console.log('listening on 4001');
 });
 
-/*
+/* (kubectl exec -it SOME_POD_NAME sh)
 -- CREATE A POST:
 curl -X POST -H "Content-Type: application/json" \
     -d '{"title": "i am a title"}' \
-    http://localhost:4000/posts
+    http://posts-clusterip:4000/posts
 
 -- LIST ALL POSTS:
-curl http://localhost:4000/posts
+curl http://posts-clusterip:4000/posts
 
 -- CREATE A COMMENT FOR A POST:
 POST_ID=$(pick a random post id)
 curl -X POST -H "Content-Type: application/json" \
 	-d '{"content": "i am a comment"}' \
-	http://localhost:4001/posts/${POST_ID}/comments
+	http://comments-clusterip:4001/posts/${POST_ID}/comments
 
 -- LIST ALL COMMENTS FOR A POST:
-curl http://localhost:4001/posts/${POST_ID}/comments
+curl http://comments-clusterip:4001/posts/${POST_ID}/comments
 */

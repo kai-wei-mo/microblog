@@ -56,7 +56,7 @@ app.listen(4002, async () => {
 	console.log('listening on 4002');
 
     // dead letter queue
-	const res = await axios.get('http://localhost:4005/events');
+	const res = await axios.get('http://event-bus-clusterip:4005/events');
 	for (let event of res.data) {
 		console.log(`processing event: ${event.type}`);
 		handleEvent(event);

@@ -14,7 +14,7 @@ app.post('/events', async (req, res) => {
         // moderation middleware
         const status = data.content.includes('reject') ? 'rejected' : 'approved';
         
-        await axios.post('http://localhost:4005/events', {
+        await axios.post('http://event-bus-clusterip:4005/events', {
             type: 'CommentModerated',
             data: {
                 commentId: data.commentId,

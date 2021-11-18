@@ -26,7 +26,7 @@ app.post('/posts', async (req, res) => {
 	};
 
 	// emit event to bus
-	await axios.post('http://localhost:4005/events', {
+	await axios.post('http://event-bus-clusterip:4005/events', {
 		type: 'PostCreated',
 		data: { id, title },
 	});
@@ -45,10 +45,15 @@ app.listen(4000, () => {
 });
 
 /*
--- MANUAL TEST
+-- MANUAL TEST (minikube)
+
+MINIKUBE_IP=$(minikube ip)
+NODEPORT=$(echo "$(kubectl describe service posts-entrypoint | grep "NodePort:")" | tr -dc '0-9')
+ENDPOINT=http://$MINIKUBE_IP:$NODEPORT/posts
 
 curl -X POST -H "Content-Type: application/json" \
     -d '{"title": "i am a title"}' \
-    http://localhost:4000/posts
-xdg-open http://localhost:4000/posts
+    $ENDPOINT
+
+xdg-open $ENDPOINT
 */

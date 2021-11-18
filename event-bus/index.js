@@ -21,10 +21,10 @@ app.post('/events', (req, res) => {
 	events.push(event);
 
 	// send event to other microservices
-	axios.post('http://localhost:4000/events', event).catch(console.error); // posts
-	axios.post('http://localhost:4001/events', event).catch(console.error); // comments
-	axios.post('http://localhost:4002/events', event).catch(console.error); // query
-	axios.post('http://localhost:4003/events', event).catch(console.error); // moderation
+	axios.post('http://posts-clusterip:4000/events', event).catch(console.error);
+	axios.post('http://comments-clusterip:4001/events', event).catch(console.error);
+	axios.post('http://query-clusterip:4002/events', event).catch(console.error);
+	axios.post('http://moderation-clusterip:4003/events', event).catch(console.error);
 
 	// assumes requests are unconditionally successful
 	res.send({ status: 'OK' });
