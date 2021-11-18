@@ -22,4 +22,17 @@ spec:
         - name: comments
           protocol: TCP
           containerPort: 4001
-          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: comments-clusterip
+spec:
+  type: ClusterIP
+  selector:
+    app: comments
+  ports:
+  - name: comments-clusterip
+    protocol: TCP
+    port: 4001
+    targetPort: 4001

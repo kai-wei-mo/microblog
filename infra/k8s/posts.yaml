@@ -22,3 +22,17 @@ spec:
         - name: posts
           protocol: TCP
           containerPort: 4000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: posts-clusterip
+spec:
+  type: ClusterIP
+  selector:
+    app: posts
+  ports:
+  - name: posts-clusterip
+    protocol: TCP
+    port: 4000
+    targetPort: 4000
