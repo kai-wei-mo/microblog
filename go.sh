@@ -33,7 +33,7 @@ do
   kubectl apply -f $file
 done
 
-deploys=`kubectl get deployments -n default | tail -n1 | cut -d ' ' -f 1`
+deploys=`kubectl get deployments -n default | tail -n7 | cut -d ' ' -f 1`
 for deploy in $deploys; do
   kubectl rollout restart deployments/$deploy -n default
 done
