@@ -1,18 +1,20 @@
 # microservices-from-scratch
 
 ## Requirements
-- `node >=16.0.0`
-- `npm >=7.0.0`
+- `minikube`
+- `kubectl`
+- `docker`
 
 ## Setup
-- open **six** terminal instances in the repo's root directory
-- run each of the following commands (one command per terminal)
-    1. `cd client && npm i && npm start`
-    2. `cd posts && npm i && npm start`
-    3. `cd comments && npm i && npm start`
-    4. `cd query && npm i && npm start`
-    5. `cd moderation && npm i && npm start`
-    6. `cd event-bus && npm i && npm start`
+```Bash
+minikube start
+eval $(minikube docker-env)
+kubectl create namespace microservices-from-scratch
+bash setup.sh
+minikube addons enable ingress
+MINIKUBE_IP=$(minikube ip)
+echo "$MINIKUBE_IP posts.com" | sudo tee -a /etc/hosts
+```
 
 ## Learning Objectives
 - Posts, Comments, and Query
