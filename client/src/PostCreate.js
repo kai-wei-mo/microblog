@@ -7,7 +7,7 @@ const PostCreate = () => {
 	const onSubmit = async (event) => {
 		event.preventDefault();
 
-		await axios.post('http://localhost:4000/posts', {
+		await axios.post('http://posts.com/posts/create', {
 			title,
 		});
 
@@ -32,3 +32,9 @@ const PostCreate = () => {
 };
 
 export default PostCreate;
+
+/* make POST request
+curl -X POST -H "Content-Type: application/json" \
+-d '{"title": "i am a title"}' \
+http://posts.com/posts/create/
+*/

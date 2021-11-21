@@ -9,11 +9,11 @@
 ```Bash
 minikube start
 eval $(minikube docker-env)
-kubectl create namespace microservices-from-scratch
-bash setup.sh
+kubectl create namespace microblog
 minikube addons enable ingress
 MINIKUBE_IP=$(minikube ip)
 echo "$MINIKUBE_IP posts.com" | sudo tee -a /etc/hosts
+bash setup.sh
 ```
 
 ## Learning Objectives

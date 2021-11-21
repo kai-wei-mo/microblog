@@ -30,5 +30,5 @@ cd ..
 cd infra/k8s
 for file in .
 do
-  kubectl apply -f $file -n microservices-from-scratch
+  kubectl apply -f $file -n microblog
 done

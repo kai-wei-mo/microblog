@@ -6,6 +6,14 @@ const axios = require('axios');
 
 const app = express();
 app.use(cors());
+app.use(function (req, res, next) {
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header(
+		'Access-Control-Allow-Headers',
+		'Origin, X-Requested-With, Content-Type, Accept'
+	);
+	next();
+});
 app.use(bodyParser.json());
 
 // store posts in-memory (for testing)
@@ -55,7 +63,7 @@ app.post('/events', (req, res) => {
 app.listen(4002, async () => {
 	console.log('listening on 4002');
 
-    // dead letter queue
+	// dead letter queue
 	const res = await axios.get('http://event-bus-clusterip:4005/events');
 	for (let event of res.data) {
 		console.log(`processing event: ${event.type}`);
