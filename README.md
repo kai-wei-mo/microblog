@@ -1,4 +1,4 @@
-# microservices-from-scratch
+# microblog
 
 ## Requirements
 - `minikube`
@@ -41,26 +41,5 @@ All services, including the event bus, have been built from scratch in order to 
 | Query | - fetching Posts and Comments for display<br>- stores all Posts and Comments<br>- only stores information necessary for faster fetching |
 | Moderation | - determine if Comment is appropriate for display |
 
-### Demo 1 - Request Minimization
-0. After each step, refresh the React app to show your changes
-1. Open your browser's Network Tab
-2. Create a Post
-3. Create some Comments for the Post
-
-Observe that only one request has been made to fetch all posts and their comments.
-
-This is made possible by the Query microservice, which stores a copy of all Posts and Comments in proper microservice fashion.
-
-### Demo 2 - Dead Letter Queue (DLQ)
-0. After each step, refresh the React app to show your changes
-1. Kill the Query service (i.e. Ctrl-C in the Query service terminal)
-2. Create some Posts and Comments
-3. Observe that your Posts and Comments do not show even after refreshing the React app
-4. Restart the Query service (i.e. `npm start`)
-
-Observe that your Posts and Comments now appear on the React app, and that there are logs of in Query service terminal showing evidece of DLQ event processing.
-
-This is made possible by our custom event bus which stores all events to be queried by the Query service on start-up.
-
 ## Disclaimer
-Certain design elements of this project (e.g. storing Posts and Comments in-memory, creating an Event Bus from a Node server, etc.) were chosen for instructional purposes and should not be used in any production-grade environments.
+Many design elements of this project (e.g. storing Posts and Comments in-memory, absense of hot-reload, creating an in-house Event Bus, etc.) were chosen for instructional purposes and should not be used in any production-grade environments.
